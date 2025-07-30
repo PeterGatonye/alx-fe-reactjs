@@ -6,11 +6,11 @@ const EditRecipeForm = ({ recipe }) => {
   const [title, setTitle] = useState(recipe.title);
   const [description, setDescription] = useState(recipe.description);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    updateRecipe({ id: recipe.id, title, description });
-    alert('Recipe updated!');
-  };
+  const handleSubmit = (event) => {
+  event.preventDefault();
+  updateRecipe({ id: recipe.id, title, description });
+  alert('Recipe updated!');
+};
 
   return (
     <form onSubmit={handleSubmit}>
