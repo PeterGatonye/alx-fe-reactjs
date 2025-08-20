@@ -1,6 +1,6 @@
 import React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import PostsComponent from "./PostsComponent"; // ✅ match your file name
+import PostsComponent from "./components/PostsComponent"; // ✅ match your file name
 
 const queryClient = new QueryClient();
 
