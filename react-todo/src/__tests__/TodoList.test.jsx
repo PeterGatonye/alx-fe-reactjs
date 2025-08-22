@@ -44,8 +44,9 @@ describe("TodoList component", () => {
     // Click "Add" with empty input
     fireEvent.click(addButton);
 
-    // Nothing should be added to the list
-    expect(screen.queryByRole("listitem")).not.toBeInTheDocument();
+    // Nothing should be added to the list - check that no list items exist
+    const listItems = screen.queryAllByRole("listitem");
+    expect(listItems).toHaveLength(0);
   });
 
   // ---------------------------
@@ -64,13 +65,13 @@ describe("TodoList component", () => {
     const toggleButton = screen.getByText(/Toggle/i);
 
     // Initially, todo should NOT have a line-through
-    expect(todo).toHaveStyle("text-decoration: none");
+    expect(todo).toHaveStyle("textDecoration: none");
 
     // Click "Toggle" button
     fireEvent.click(toggleButton);
 
     // Todo should now have a line-through
-    expect(todo).toHaveStyle("text-decoration: line-through");
+    expect(todo).toHaveStyle("textDecoration: line-through");
   });
 
   // ---------------------------
