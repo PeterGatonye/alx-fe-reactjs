@@ -1,7 +1,11 @@
 import { useState } from "react";
 
 function TodoList() {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState([
+    { text: "Learn React", completed: false },
+    { text: "Build a todo app", completed: true },
+    { text: "Write tests", completed: false }
+  ]);
   const [input, setInput] = useState("");
 // Add
   const addTodo = () => {

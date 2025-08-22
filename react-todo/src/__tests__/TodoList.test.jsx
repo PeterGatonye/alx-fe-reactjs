@@ -17,6 +17,26 @@ describe("TodoList component", () => {
   });
 
   // ---------------------------
+  // Test 1.5: Initial demo todos
+  // ---------------------------
+  it("renders initial demo todos", () => {
+    render(<TodoList />);
+
+    // Check that demo todos are present
+    expect(screen.getByText("Learn React")).toBeInTheDocument();
+    expect(screen.getByText("Build a todo app")).toBeInTheDocument();
+    expect(screen.getByText("Write tests")).toBeInTheDocument();
+
+    // Check that the completed todo has line-through styling
+    const completedTodo = screen.getByText("Build a todo app");
+    expect(completedTodo).toHaveStyle("textDecoration: line-through");
+
+    // Check that non-completed todos don't have line-through styling
+    const activeTodo = screen.getByText("Learn React");
+    expect(activeTodo).toHaveStyle("textDecoration: none");
+  });
+
+  // ---------------------------
   // Test 2: Adding a new todo
   // ---------------------------
   it("adds a new todo when Add button is clicked", () => {
@@ -25,13 +45,13 @@ describe("TodoList component", () => {
     const addButton = screen.getByText(/Add/i);
 
     // Type into input field
-    fireEvent.change(input, { target: { value: "Learn React" } });
+    fireEvent.change(input, { target: { value: "New Task" } });
 
     // Click "Add" button
     fireEvent.click(addButton);
 
     // The new todo should now appear in the list
-    expect(screen.getByText("Learn React")).toBeInTheDocument();
+    expect(screen.getByText("New Task")).toBeInTheDocument();
   });
 
   // ---------------------------
@@ -44,9 +64,9 @@ describe("TodoList component", () => {
     // Click "Add" with empty input
     fireEvent.click(addButton);
 
-    // Nothing should be added to the list - check that no list items exist
+    // Should still have the initial 3 demo todos
     const listItems = screen.queryAllByRole("listitem");
-    expect(listItems).toHaveLength(0);
+    expect(listItems).toHaveLength(3);
   });
 
   // ---------------------------
@@ -54,15 +74,11 @@ describe("TodoList component", () => {
   // ---------------------------
   it("toggles a todo's completed status", () => {
     render(<TodoList />);
-    const input = screen.getByPlaceholderText(/Add a new task/i);
-    const addButton = screen.getByText(/Add/i);
-
-    // Add a new todo
-    fireEvent.change(input, { target: { value: "Write tests" } });
-    fireEvent.click(addButton);
-
-    const todo = screen.getByText("Write tests");
-    const toggleButton = screen.getByText(/Toggle/i);
+    
+    // Get the first demo todo and its toggle button
+    const todo = screen.getByText("Learn React");
+    const toggleButtons = screen.getAllByText(/Toggle/i);
+    const toggleButton = toggleButtons[0]; // First toggle button
 
     // Initially, todo should NOT have a line-through
     expect(todo).toHaveStyle("textDecoration: none");
@@ -79,21 +95,16 @@ describe("TodoList component", () => {
   // ---------------------------
   it("deletes a todo when Delete button is clicked", () => {
     render(<TodoList />);
-    const input = screen.getByPlaceholderText(/Add a new task/i);
-    const addButton = screen.getByText(/Add/i);
+    
+    // Confirm demo todo is in the document
+    expect(screen.getByText("Build a todo app")).toBeInTheDocument();
 
-    // Add a new todo
-    fireEvent.change(input, { target: { value: "Clean room" } });
-    fireEvent.click(addButton);
-
-    // Confirm todo is in the document
-    expect(screen.getByText("Clean room")).toBeInTheDocument();
-
-    // Click "Delete" button
-    const deleteButton = screen.getByText(/Delete/i);
+    // Get all delete buttons and click the one for "Build a todo app"
+    const deleteButtons = screen.getAllByText(/Delete/i);
+    const deleteButton = deleteButtons[1]; // Second delete button (for "Build a todo app")
     fireEvent.click(deleteButton);
 
     // The todo should now be removed
-    expect(screen.queryByText("Clean room")).not.toBeInTheDocument();
+    expect(screen.queryByText("Build a todo app")).not.toBeInTheDocument();
   });
 });
