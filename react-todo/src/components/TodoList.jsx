@@ -3,19 +3,19 @@ import { useState } from "react";
 function TodoList() {
   const [todos, setTodos] = useState([]);
   const [input, setInput] = useState("");
-
+// Add
   const addTodo = () => {
     if (input.trim() === "") return;
     setTodos([...todos, { text: input, completed: false }]);
     setInput("");
   };
-
+// Update
   const toggleTodo = (index) => {
     const updated = [...todos];
     updated[index].completed = !updated[index].completed;
     setTodos(updated);
   };
-
+// Delete
   const deleteTodo = (index) => {
     const updated = todos.filter((_, i) => i !== index);
     setTodos(updated);
